@@ -17,8 +17,11 @@ public class ApiGatewayConfiguration {
 
     @Bean
     public RouterFunction<ServerResponse> routeLocator() {
-        return route("albumsListRoute").GET(path("/api/v1/**"), http("http://ec2-54-83-140-26.compute-1.amazonaws.com:8080"))
-                .before(rewritePath("/api/v1/(?<segment>.*)","/${segment}")).build();
+        return route("movieCatalogRoute").GET(path("/catalog-api/**"), http("http://10.0.0.23:8080"))
+                .before(rewritePath("/catalog-api/(?<segment>.*)","/api/${segment}"))
+            .route("movieSearchRoute").GET(path("/search-api/**"), http("http://10.0.0.27:8090"))
+                .before(rewritePath("/search-api/(?<segment>.*)","/api/${segment}"))
+            .build();
     }
 
 }
