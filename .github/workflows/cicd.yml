@@ -25,11 +25,11 @@ jobs:
         run: docker push itzmedinesh/api-gateway:latest
   deploy:
     needs: build
-    runs-on: [aws-ec2]
+    runs-on: [movie]
     steps:
       - name: Pull image from docker hub
-        run: docker pull itzmedinesh/api-gateway:latest
+        run: sudo docker pull itzmedinesh/api-gateway:latest
       - name: Delete container if exists
-        run: docker rm -f api-gateway-container
+        run: sudo docker rm -f api-gateway-container
       - name: Run as container
-        run: docker run -d -p 8080:8080 --name api-gateway-container itzmedinesh/api-gateway
+        run: sudo docker run -d -p 8080:8080 --name api-gateway-container itzmedinesh/api-gateway
