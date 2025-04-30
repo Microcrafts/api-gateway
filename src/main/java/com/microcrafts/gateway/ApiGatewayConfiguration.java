@@ -16,11 +16,18 @@ import static org.springframework.cloud.gateway.server.mvc.predicate.GatewayRequ
 public class ApiGatewayConfiguration {
 
     @Bean
-    public RouterFunction<ServerResponse> routeLocator() {
-        return route("movieCatalogRoute").GET(path("/catalog-api/**"), http("http://10.0.0.23:8080"))
-                .before(rewritePath("/catalog-api/(?<segment>.*)","/api/${segment}"))
-            .route("movieSearchRoute").GET(path("/search-api/**"), http("http://10.0.0.27:8090"))
-                .before(rewritePath("/search-api/(?<segment>.*)","/api/${segment}"))
+    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
+        return builder.routes()
+            .route("movieCatalogRoute", r -> r
+                .path("/catalog-api/**")
+                .filters(f -> f.rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
+                .uri("http://10.0.0.23:8080")
+            )
+            .route("movieSearchRoute", r -> r
+                .path("/search-api/**")
+                .filters(f -> f.rewritePath("/search-api/(?<segment>.*)", "/api/${segment}"))
+                .uri("http://10.0.0.27:8090")
+            )
             .build();
     }
 
