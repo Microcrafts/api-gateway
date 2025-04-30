@@ -15,12 +15,12 @@ public class ApiGatewayConfiguration {
 
     @Bean
     public RouterFunction<ServerResponse> routeLocator() {
-        return route("movieCatalogRoute")
+        return route()
                 .GET(path("/catalog-api/**"), http("http://10.0.0.23:8080"))
-                .before(rewritePath("/api/v1/(?<segment>.*)", "/api/${segment}"))
-            .route("movieSearchRoute")
+                .before(rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
+            .route()
                 .GET(path("/search-api/**"), http("http://10.0.0.27:8090"))
-                .before(rewritePath("/books-api/(?<segment>.*)", "/api/${segment}"))
+                .before(rewritePath("/search-api/(?<segment>.*)", "/api/${segment}"))
             .build();
     }
 }
