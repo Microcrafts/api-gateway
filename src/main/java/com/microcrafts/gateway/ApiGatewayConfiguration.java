@@ -18,7 +18,7 @@ public class ApiGatewayConfiguration {
         return route()
                 .GET(path("/catalog-api/**"), http("http://10.0.0.23:8080"))
                 .before(rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
-                .GET(path("/search-api/**"), http("http://10.0.0.27:8090"))
+                .GET(path("/search-api/**"), http("http://10.0.0.30:8090"))
                 .before(rewritePath("/search-api/(?<segment>.*)", "/api/${segment}"))
             .build();
     }
