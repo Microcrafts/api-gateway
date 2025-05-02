@@ -32,4 +32,4 @@ jobs:
       - name: Delete container if exists
         run: sudo docker rm -f api-gateway-container
       - name: Run as container
-        run: sudo docker run -d -p 8080:8080 --name api-gateway-container itzmedinesh/api-gateway
+        run: sudo docker run -d -p 8000:8000 --name api-gateway-container itzmedinesh/api-gateway
