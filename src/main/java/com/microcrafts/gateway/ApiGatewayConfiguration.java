@@ -18,17 +18,17 @@ public class ApiGatewayConfiguration {
     public RouterFunction<ServerResponse> routeLocator() {
         return route()
                 .GET(path("/catalog-api/**"), http("http://10.0.0.23:8080")).before(rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
-                .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "forward:/fallback"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "/fallback"))
                 .POST(path("/catalog-api/**"), http("http://10.0.0.23:8080")).before(rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
-                .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "forward:/fallback"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "/fallback"))
                 .PUT(path("/catalog-api/**"), http("http://10.0.0.23:8080")).before(rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
-                .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "forward:/fallback"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "/fallback"))
                 .DELETE(path("/catalog-api/**"), http("http://10.0.0.23:8080")).before(rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
-                .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "forward:/fallback"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "/fallback"))
                 .POST(path("/search-api/**"), http("http://10.0.0.30:8090")).before(rewritePath("/search-api/(?<segment>.*)", "/api/${segment}"))
-                .filter(CircuitBreakerFilterFunctions.circuitBreaker("searchApiCircuitBreaker", "forward:/fallback"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("searchApiCircuitBreaker", "/fallback"))
                 .GET(path("/search-api/**"), http("http://10.0.0.30:8090")).before(rewritePath("/search-api/(?<segment>.*)", "/api/${segment}"))
-                .filter(CircuitBreakerFilterFunctions.circuitBreaker("searchApiCircuitBreaker", "forward:/fallback"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("searchApiCircuitBreaker", "/fallback"))
                 .build();
     }
 }
