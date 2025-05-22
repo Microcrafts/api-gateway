@@ -1,5 +1,6 @@
 package com.microcrafts.gateway;
 
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import org.springframework.cloud.gateway.server.mvc.filter.CircuitBreakerFilterFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,7 @@ import static org.springframework.cloud.gateway.server.mvc.predicate.GatewayRequ
 public class ApiGatewayConfiguration {
 
     @Bean
-    public RouterFunction<ServerResponse> routeLocator() {
+    public RouterFunction<ServerResponse> routeLocator(CircuitBreakerRegistry circuitBreakerRegistry) {
         return route()
                 .GET(path("/catalog-api/**"), http("http://10.0.0.23:8080")).before(rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "/fallback"))
