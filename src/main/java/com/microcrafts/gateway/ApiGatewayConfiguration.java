@@ -16,7 +16,7 @@ import static org.springframework.cloud.gateway.server.mvc.predicate.GatewayRequ
 public class ApiGatewayConfiguration {
 
     @Bean
-    public RouterFunction<ServerResponse> routeLocator(CircuitBreakerRegistry circuitBreakerRegistry) {
+    public RouterFunction<ServerResponse> routeLocator() {
         return route()
                 .GET(path("/catalog-api/**"), http("http://10.0.0.23:8080")).before(rewritePath("/catalog-api/(?<segment>.*)", "/api/${segment}"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogApiCircuitBreaker", "/fallback"))
