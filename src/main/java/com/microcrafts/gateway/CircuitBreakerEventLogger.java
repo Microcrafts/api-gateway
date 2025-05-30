@@ -35,13 +35,13 @@ public class CircuitBreakerEventLogger {
 
     private void registerEventLogger(CircuitBreaker circuitBreaker) {
         circuitBreaker.getEventPublisher()
-                .onStateTransition(event -> logger.info("CircuitBreaker '{}' state changed to {}",
+                .onStateTransition(event -> logger.info("Circuit Breaker '{}' state changed to {}",
                         event.getCircuitBreakerName(),
                         event.getStateTransition()))
-                .onError(event -> logger.error("CircuitBreaker '{}' recorded an error: {}",
+                .onError(event -> logger.error("Circuit Breaker '{}' recorded an error: {}",
                         event.getCircuitBreakerName(),
                         event.getThrowable().getMessage()))
-                .onSuccess(event -> logger.info("CircuitBreaker '{}' recorded a success",
+                .onSuccess(event -> logger.info("Circuit Breaker '{}' recorded a success",
                         event.getCircuitBreakerName()));
     }
 }
