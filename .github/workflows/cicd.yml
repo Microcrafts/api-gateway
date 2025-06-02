@@ -1,0 +1,35 @@
+name: CICD
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name : Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build project
+        run: mvn clean install
+      - name: Docker Login
+        run: docker login -u ${{secrets.DOCKHUB_UID}} -p ${{secrets.DOCKHUB_PWD}}
+      - name: Build docker image
+        run: docker build --build-arg CACHEBUST=$(date +"%s") -t itzmedinesh/api-gateway .
+      - name: Push image to docker hub
+        run: docker push itzmedinesh/api-gateway:latest
+  deploy:
+    needs: build
+    runs-on: [movies]
+    steps:
+      - name: Pull image from docker hub
+        run: sudo docker pull itzmedinesh/api-gateway:latest
+      - name: Delete container if exists
+        run: sudo docker rm -f api-gateway-container
+      - name: Run as container
+        run: sudo docker run -d -p 8000:8000 --name api-gateway-container itzmedinesh/api-gateway

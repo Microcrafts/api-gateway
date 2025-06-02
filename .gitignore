@@ -1,6 +1,10 @@
 # Compiled class file
 *.class
-
+.mvn*
+.terraform*
+.keys*
+target/**
+mvnw*
 # Log file
 *.log
 
